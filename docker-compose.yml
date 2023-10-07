@@ -15,8 +15,20 @@ services:
     networks:
       - database-network 
 
+  cache:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    ports:
+      - '3993:6379'
+    # command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - cache:/data
+
 volumes:
   db:
+    driver: local
+  cache:
     driver: local
 
 networks:

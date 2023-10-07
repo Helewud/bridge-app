@@ -14,4 +14,5 @@ export default {
   MAILGUN_KEY: String(process.env.MAILGUN_KEY),
   MAILGUN_DOMAIN: String(process.env.MAILGUN_DOMAIN),
   MAILGUN_HOST: String(process.env.MAILGUN_HOST),
+  REDIS_URL: process.env.REDIS_URL,
 };
