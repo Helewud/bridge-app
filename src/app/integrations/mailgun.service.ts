@@ -17,6 +17,10 @@ export class MailgunService {
   }
 
   async send(data: MailgunMessageData) {
-    return this.client().messages.create(MAILGUN_DOMAIN, data);
+    const response = await this.client().messages.create(MAILGUN_DOMAIN, data);
+
+    console.log(`SENDING EMAIL - ${data.to} - ${data.subject}`);
+
+    return response;
   }
 }
