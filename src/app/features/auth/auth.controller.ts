@@ -6,6 +6,7 @@ import {
   httpGet,
   request,
   response,
+  requestBody,
 } from "inversify-express-utils";
 import { Dependency } from "../../../utils/container.helper";
 import { AuthService } from "./auth.service";

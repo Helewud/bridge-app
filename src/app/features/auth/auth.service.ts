@@ -7,16 +7,27 @@ export class AuthService extends PrismaRepository {
     super();
   }
 
-  ff = (async () => {
-    //   await this.prisma.admin.create({
-    //     data: {
-    //       email: "helewud@gmail.com",
-    //       password: "hgjshdjdsksls",
-    //       isActive: true,
-    //       isVerified: true,
-    //     },
-    //   });
+  register() {}
 
-    console.log(await this.prisma.user.findMany(), 10000);
-  })();
+  login() {}
+
+  getUser() {}
+
+  validateToken() {}
+
+  generateAuthToken() {}
+
+  hashPassword() {}
+
+  comparePassword() {}
+
+  resetPassword() {}
+
+  generateResetPasswordToken() {}
+
+  changePassword() {}
+
+  generateEmailVerificationToken() {}
+
+  verifyEmail() {}
 }

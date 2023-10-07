@@ -6,9 +6,10 @@ class AppError extends Error {
   public readonly statusCode: number;
   public readonly isOperational: boolean;
 
-  constructor(message: string, statusCode = StatusCodes.INTERNAL_SERVER_ERROR) {
+  constructor(message: string, statusCode: keyof typeof StatusCodes) {
     super(message);
-    this.statusCode = statusCode;
+    this.statusCode =
+      StatusCodes[statusCode] || StatusCodes.INTERNAL_SERVER_ERROR;
     this.isOperational = true;
     Error.captureStackTrace(this, this.constructor);
   }
