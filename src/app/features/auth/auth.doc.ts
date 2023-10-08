@@ -48,7 +48,7 @@
  *               email:
  *                 type: string
  *                 description: User's email address
- *                 example: helewud@gmail.com
+ *                 example: john@doe.com
  *               username:
  *                 type: string
  *                 description: User's username
@@ -88,7 +88,7 @@
  *                     email:
  *                       type: string
  *                       description: User's email address
- *                       example: helewud@gmail.com
+ *                       example: john@doe.com
  *                     isVerified:
  *                       type: boolean
  *                       description: Indicates whether the user is verified
@@ -158,7 +158,7 @@
  *               email:
  *                 type: string
  *                 description: User's email address
- *                 example: helewud@gmail.com
+ *                 example: john@doe.com
  *               token:
  *                 type: string
  *                 description: Verification token
@@ -200,7 +200,7 @@
  *               email:
  *                 type: string
  *                 description: User's email address
- *                 example: helewud@gmail.com
+ *                 example: john@doe.com
  *               password:
  *                 type: string
  *                 description: User's password
@@ -236,7 +236,7 @@
  *                         email:
  *                           type: string
  *                           description: User's email address
- *                           example: helewud@gmail.com
+ *                           example: john@doe.com
  *                         isVerified:
  *                           type: boolean
  *                           description: Indicates whether the user is verified
@@ -308,7 +308,7 @@
  *               email:
  *                 type: string
  *                 description: User's email address
- *                 example: helewud@gmail.com
+ *                 example: john@doe.com
  *               password:
  *                 type: string
  *                 description: New password
@@ -335,4 +335,53 @@
  *                   example: {}
  *       '400':
  *         $ref: '#/components/responses/ErrorResponse'
+ */
+
+/**
+ * @swagger
+ *
+ * /api/auth/change-password:
+ *   post:
+ *     summary: Change User Password
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *                 description: New password
+ *                 example: johndoe1111
+ *               oldPassword:
+ *                 type: string
+ *                 description: Old password
+ *                 example: johndoe
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A success message
+ *                   example: Password changed successfully, proceed to login.
+ *                 data:
+ *                   type: object
+ *                   description: Additional data (empty in this case)
+ *                   example: {}
+ *       '400':
+ *         $ref: '#/components/responses/ErrorResponse'
+ *     securitySchemes:
+ *       BearerAuth:
+ *         type: apiKey
+ *         in: header
+ *         name: Authorization
  */

@@ -9,6 +9,7 @@ import { generateNumberToken } from "../../../utils/function.helper";
 import { IJwtPayload, Token } from "./auth.interface";
 import { Roles } from "@prisma/client";
 import {
+  ChangePasswordDto,
   ForgotPasswordDto,
   LoginDto,
   RegisterUserDto,
@@ -385,7 +386,43 @@ export class AuthService extends PrismaRepository {
     };
   }
 
-  changePassword() {}
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
 
-  generateEmailVerificationToken() {}
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    const validCredential = await this.comparePassword(
+      dto?.oldPassword,
+      user?.password
+    );
+    if (!validCredential) {
+      throw new AppError("Incorrect credentials!", "BAD_GATEWAY");
+    }
+
+    const hash = await this.hashPassword(dto.newPassword);
+
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hash,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new AppError("Something went wrong updating user!", "BAD_REQUEST");
+    }
+
+    return {
+      message: "Password changed successfully, proceed to login.",
+      data: {},
+    };
+  }
 }

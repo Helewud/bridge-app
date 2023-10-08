@@ -1,19 +1,17 @@
 import express from "express";
 import { inject } from "inversify";
-import { z } from "zod";
 import {
   interfaces,
   controller,
   httpGet,
   request,
   response,
-  requestBody,
-  BaseHttpController,
   httpPost,
   requestParam,
 } from "inversify-express-utils";
 import { AuthService } from "./auth.service";
 import {
+  ChangePasswordDto,
   ForgotPasswordDto,
   LoginDto,
   RegisterUserDto,
@@ -28,6 +26,7 @@ import {
 } from "../../../middlewares/validator.middleware";
 import { Dependency } from "../../../utils/container.helper";
 import { authGuard } from "../../../common/constant";
+import { User } from "@prisma/client";
 
 @controller("/auth")
 export class AuthController implements interfaces.Controller {
@@ -108,6 +107,20 @@ export class AuthController implements interfaces.Controller {
   ) {
     try {
       return resolve(this.authService.resetPassword(req.body), res);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+
+  @httpPost("/change-password", authGuard, bodyValidator(ChangePasswordDto))
+  async changePassword(
+    @request() req: express.Request,
+    @response() res: express.Response
+  ) {
+    try {
+      const user = req.user as User;
+      return resolve(this.authService.changePassword(user.id, req.body), res);
     } catch (error) {
       console.log(error);
       res.status(400).json(error);

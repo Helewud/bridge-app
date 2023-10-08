@@ -51,9 +51,13 @@ export class Authenticate extends BaseMiddleware {
       }
 
       const payload = this.authService.validateJwtToken(token);
-      const response = await this.authService.getUser(payload.id);
+      const { data } = await this.authService.getUser(payload.id);
 
-      req.user = response.data;
+      if (!data.isVerified) {
+        next(new AppError("Please verify account!", "UNAUTHORIZED"));
+      }
+
+      req.user = data;
       next();
     } catch (error: any) {
       next(error);
