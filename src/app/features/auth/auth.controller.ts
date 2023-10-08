@@ -12,7 +12,7 @@ import {
   httpPost,
 } from "inversify-express-utils";
 import { AuthService } from "./auth.service";
-import { RegisterUserDto } from "./auth.dto";
+import { LoginDto, RegisterUserDto } from "./auth.dto";
 import { resolve } from "../../../utils/response.helper";
 import { bodyValidator } from "../../../middlewares/validator.middleware";
 import { Dependency } from "../../../utils/container.helper";
@@ -30,12 +30,25 @@ export class AuthController
   }
 
   @httpPost("/register", bodyValidator(RegisterUserDto))
-  async health(
+  async register(
     @request() req: express.Request,
     @response() res: express.Response
   ) {
     try {
       return resolve(this.authService.register(req.body), res);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+
+  @httpPost("/login", bodyValidator(LoginDto))
+  async login(
+    @request() req: express.Request,
+    @response() res: express.Response
+  ) {
+    try {
+      return resolve(this.authService.login(req.body), res);
     } catch (error) {
       console.log(error);
       res.status(400).json(error);
