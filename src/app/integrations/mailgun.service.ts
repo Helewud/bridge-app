@@ -1,26 +1,36 @@
-import Mailgun, { MailgunMessageData } from "mailgun.js";
-import FormData from "form-data";
-import envConfig from "../../config/env.config";
 import { injectable } from "inversify";
+import envConfig from "../../config/env.config";
+import { AppError } from "../../utils/error.helper";
 
 const { MAILGUN_KEY, MAILGUN_DOMAIN, MAILGUN_HOST } = envConfig;
+
+const mailgun = require("mailgun-js")({
+  apiKey: MAILGUN_KEY,
+  domain: MAILGUN_DOMAIN,
+  host: MAILGUN_HOST,
+});
 
 @injectable()
 export class MailgunService {
   private client() {
-    const mailgun = new Mailgun(FormData);
-    return mailgun.client({
-      username: "api",
-      key: MAILGUN_KEY,
-      url: MAILGUN_HOST,
-    });
+    return mailgun;
   }
 
-  async send(data: MailgunMessageData) {
-    const response = await this.client().messages.create(MAILGUN_DOMAIN, data);
+  async send(data: {
+    from: string;
+    to: string;
+    subject: string;
+    html?: string;
+    text?: string;
+  }) {
+    try {
+      const response = await this.client().messages().send(data);
 
-    console.log(`SENDING EMAIL - ${data.to} - ${data.subject}`);
+      console.log(`SENDING EMAIL - ${data.to} - ${data.subject}`);
 
-    return response;
+      return response;
+    } catch (error: any) {
+      throw new AppError(error, "BAD_GATEWAY");
+    }
   }
 }
