@@ -28,18 +28,54 @@ export const bodyValidator =
     }
   };
 
-// export const paramsValidator =
-//   (schema: ZodType) => (req: Request, res: Response, next: NextFunction) => {
-//     console.log(schema);
+export const paramsValidator =
+  (schema: new (...args: any[]) => any) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!schema) {
+        next();
+        return;
+      }
 
-//     console.log(req.body);
-//     schema.parse(req.body);
-//   };
+      const plainData = req.params;
+      const obj = plainToClass(schema, plainData);
 
-// export const queryValidator =
-//   (schema: ZodType) => (req: Request, res: Response, next: NextFunction) => {
-//     console.log(schema);
+      const errors = await validate(obj);
 
-//     console.log(req.body);
-//     schema.parse(req.body);
-//   };
+      if (errors.length > 0) {
+        next(errors as any);
+        return;
+      }
+
+      req.params = obj;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
+
+export const queryValidator =
+  (schema: new (...args: any[]) => any) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!schema) {
+        next();
+        return;
+      }
+
+      const plainData = req.query;
+      const obj = plainToClass(schema, plainData);
+
+      const errors = await validate(obj);
+
+      if (errors.length > 0) {
+        next(errors as any);
+        return;
+      }
+
+      req.query = obj;
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
