@@ -8,7 +8,11 @@ import { RedisService } from "../../integrations/redis.service";
 import { generateNumberToken } from "../../../utils/function.helper";
 import { IJwtPayload, Token } from "./auth.interface";
 import { Roles } from "@prisma/client";
-import { LoginDto, RegisterUserDto } from "./auth.dto";
+import {
+  LoginDto,
+  RegisterUserDto,
+  ResendVerificationEmailDto,
+} from "./auth.dto";
 import { TokenExpiration, TokenType } from "../../../common/constant";
 import { Dependency } from "../../../utils/container.helper";
 import envConfig from "../../../config/env.config";
@@ -202,9 +206,37 @@ export class AuthService extends PrismaRepository {
     };
   }
 
-  validateToken() {}
+  async resendVerificationEmail(dto: ResendVerificationEmailDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: dto?.email,
+      },
+      select: {
+        id: true,
+        isVerified: true,
+      },
+    });
 
-  generateAuthToken() {}
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    if (user.isVerified) {
+      throw new AppError("User account verified already!", "BAD_REQUEST");
+    }
+
+    const token = await this.makeToken(user?.id, TokenType.EMAIL_VERIFICATION);
+
+    await this.mailService.sendVerificationMail({
+      email: dto.email,
+      token: token,
+    });
+
+    return {
+      message: "Token sent successfully, check email inbox to continue.",
+      data: {},
+    };
+  }
 
   resetPassword() {}
 

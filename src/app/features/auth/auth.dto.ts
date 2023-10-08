@@ -28,3 +28,9 @@ export class LoginDto {
   @IsNotEmpty()
   password: string;
 }
+
+export class ResendVerificationEmailDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}
