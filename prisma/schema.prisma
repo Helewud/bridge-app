@@ -16,6 +16,11 @@ enum Roles {
     LANDLORD
 }
 
+enum PropertyStatus {
+    OPEN
+    CLOSED
+}
+
 model User {
     id         String    @unique @default(uuid())
     username   String    @unique
@@ -27,4 +32,19 @@ model User {
     updatedAt  DateTime  @updatedAt
     deletedAt  DateTime?
     lastLogin  DateTime?
+}
+
+model Property {
+    id            String         @unique @default(uuid())
+    userId        String
+    price         Float
+    location      String
+    numberOfRooms String
+    amenities     String[]
+    description   String
+    media         String[]
+    status        PropertyStatus
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    deletedAt     DateTime?
 }
