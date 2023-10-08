@@ -2,11 +2,11 @@ import { Container } from "inversify";
 
 export const Dependency = {
   AuthService: Symbol("AuthService"),
-
   MailgunService: Symbol("MailgunService"),
   MailService: Symbol("MailService"),
-
+  RedisService: Symbol("RedisService"),
   PrismaRepository: Symbol("PrismaRepository"),
+  AuthController: Symbol("AuthController"),
 };
 
 export function registerDependency(

@@ -4,6 +4,7 @@ import { AuthController } from "./features/auth/auth.controller";
 import { AuthService } from "./features/auth/auth.service";
 import { MailService } from "./integrations/mail.service";
 import { MailgunService } from "./integrations/mailgun.service";
+import { RedisService } from "./integrations/redis.service";
 
 export default (function () {
   //
@@ -29,6 +30,10 @@ export default (function () {
     {
       name: "MailService",
       injectable: MailService,
+    },
+    {
+      name: "RedisService",
+      injectable: RedisService,
     },
 
     //

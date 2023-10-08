@@ -1,5 +1,6 @@
 import express from "express";
 import { inject } from "inversify";
+import { z } from "zod";
 import {
   interfaces,
   controller,
@@ -7,27 +8,36 @@ import {
   request,
   response,
   requestBody,
+  BaseHttpController,
+  httpPost,
 } from "inversify-express-utils";
-import { Dependency } from "../../../utils/container.helper";
 import { AuthService } from "./auth.service";
+import { RegisterUserDto } from "./auth.dto";
+import { resolve } from "../../../utils/response.helper";
+import { bodyValidator } from "../../../middlewares/validator.middleware";
+import { Dependency } from "../../../utils/container.helper";
 
 @controller("/auth")
-export class AuthController implements interfaces.Controller {
+export class AuthController
+  extends BaseHttpController
+  implements interfaces.Controller
+{
   constructor(
     @inject(Dependency.AuthService)
     private readonly authService: AuthService
-  ) {}
+  ) {
+    super();
+  }
 
-  @httpGet("/")
+  @httpPost("/register", bodyValidator(RegisterUserDto))
   async health(
     @request() req: express.Request,
     @response() res: express.Response
   ) {
     try {
-      //   this.AuthService.ff();
-
-      res.status(200).json({ message: "works" });
+      return resolve(this.authService.register(req.body), res);
     } catch (error) {
+      console.log(error);
       res.status(400).json(error);
     }
   }

@@ -3,7 +3,6 @@ import express from "express";
 import { injectable } from "inversify";
 import { interfaces } from "inversify-express-utils";
 import { AppError } from "../utils/error.helper";
-import { StatusCodes } from "http-status-codes";
 
 @injectable()
 export class AuthProvider implements interfaces.AuthProvider {
