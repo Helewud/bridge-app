@@ -3,6 +3,8 @@ import { PrismaRepository } from "../providers/prisma.repository";
 import { registerDependency } from "../utils/container.helper";
 import { AuthController } from "./features/auth/auth.controller";
 import { AuthService } from "./features/auth/auth.service";
+import { UserController } from "./features/users/user.controller";
+import { UserService } from "./features/users/user.service";
 import { MailService } from "./integrations/mail.service";
 import { MailgunService } from "./integrations/mailgun.service";
 import { RedisService } from "./integrations/redis.service";
@@ -12,6 +14,7 @@ export default (function () {
   //
   // Register Controllers
   AuthController;
+  UserController;
 
   //
   //
@@ -46,6 +49,10 @@ export default (function () {
     {
       name: "AuthService",
       injectable: AuthService,
+    },
+    {
+      name: "UserService",
+      injectable: UserService,
     },
   ]);
 })();
