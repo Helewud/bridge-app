@@ -14,9 +14,12 @@ import {
 } from "inversify-express-utils";
 import { AuthService } from "./auth.service";
 import {
+  ForgotPasswordDto,
   LoginDto,
   RegisterUserDto,
   ResendVerificationEmailDto,
+  ResetPasswordDto,
+  VerifyEmailDto,
 } from "./auth.dto";
 import { resolve } from "../../../utils/response.helper";
 import {
@@ -61,12 +64,50 @@ export class AuthController implements interfaces.Controller {
 
   @httpGet("/email/:email", paramsValidator(ResendVerificationEmailDto))
   async resendVerificationEmail(
-    @request() req: express.Request,
     @response() res: express.Response,
-    @requestParam() param: ResendVerificationEmailDto
+    @requestParam() params: ResendVerificationEmailDto
   ) {
     try {
-      return resolve(this.authService.resendVerificationEmail(param), res);
+      return resolve(this.authService.resendVerificationEmail(params), res);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+
+  @httpPost("/email", bodyValidator(VerifyEmailDto))
+  async verifyEmail(
+    @request() req: express.Request,
+    @response() res: express.Response
+  ) {
+    try {
+      return resolve(this.authService.verifyEmail(req.body), res);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+
+  @httpGet("/reset/:email", paramsValidator(ForgotPasswordDto))
+  async forgotPassword(
+    @response() res: express.Response,
+    @requestParam() params: ResendVerificationEmailDto
+  ) {
+    try {
+      return resolve(this.authService.forgotPassword(params), res);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+
+  @httpPost("/reset", bodyValidator(ResetPasswordDto))
+  async resetPassword(
+    @request() req: express.Request,
+    @response() res: express.Response
+  ) {
+    try {
+      return resolve(this.authService.resetPassword(req.body), res);
     } catch (error) {
       console.log(error);
       res.status(400).json(error);

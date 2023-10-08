@@ -9,4 +9,5 @@ export interface IJwtPayload {
 export interface Token {
   type: TokenType;
   identifier: string;
+  token: string;
 }

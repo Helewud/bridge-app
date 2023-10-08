@@ -9,9 +9,12 @@ import { generateNumberToken } from "../../../utils/function.helper";
 import { IJwtPayload, Token } from "./auth.interface";
 import { Roles } from "@prisma/client";
 import {
+  ForgotPasswordDto,
   LoginDto,
   RegisterUserDto,
   ResendVerificationEmailDto,
+  ResetPasswordDto,
+  VerifyEmailDto,
 } from "./auth.dto";
 import { TokenExpiration, TokenType } from "../../../common/constant";
 import { Dependency } from "../../../utils/container.helper";
@@ -34,14 +37,48 @@ export class AuthService extends PrismaRepository {
     return argon2.verify(hash, password);
   }
 
-  private async makeToken(identifier: string, type: TokenType) {
-    const token: Token = {
-      type: TokenType.EMAIL_VERIFICATION,
-      identifier: identifier,
-    };
+  private async makeToken(
+    identifier: string,
+    type: TokenType,
+    expires?: TokenExpiration
+  ) {
     const tokenIdentifier = generateNumberToken(6);
-    await this.redisService.set(tokenIdentifier, JSON.stringify(token));
+
+    const token: Token = {
+      type,
+      identifier: identifier,
+      token: tokenIdentifier,
+    };
+
+    await this.redisService.setexp(`${type}:${identifier}`, token, expires);
     return tokenIdentifier;
+  }
+
+  private async verifyToken({
+    identifier,
+    tokenIdentifier,
+    type,
+  }: {
+    identifier: string;
+    tokenIdentifier: string;
+    type: TokenType;
+  }) {
+    const payload = await this.redisService.get<Token>(`${type}:${identifier}`);
+    await this.redisService.del(`${type}:${identifier}`);
+
+    if (!payload) {
+      throw new AppError("Invalid or expired token!", "BAD_REQUEST");
+    }
+
+    if (payload.identifier !== identifier) {
+      throw new AppError("Invalid token!", "UNAUTHORIZED");
+    }
+
+    if (payload.token !== tokenIdentifier) {
+      throw new AppError("Invalid token!", "BAD_REQUEST");
+    }
+
+    return payload;
   }
 
   private makeJwtToken(payload: IJwtPayload): string {
@@ -238,13 +275,117 @@ export class AuthService extends PrismaRepository {
     };
   }
 
-  resetPassword() {}
+  async verifyEmail(dto: VerifyEmailDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: dto.email,
+      },
+    });
 
-  generateResetPasswordToken() {}
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    await this.verifyToken({
+      identifier: user?.id,
+      tokenIdentifier: dto?.token,
+      type: TokenType.EMAIL_VERIFICATION,
+    });
+
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new AppError("Something went wrong updating user!", "BAD_REQUEST");
+    }
+
+    return {
+      message: "Email verified successfully.",
+      data: {},
+    };
+  }
+
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: dto?.email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    await this.prisma.user.update({
+      where: {
+        email: dto?.email,
+      },
+      data: {
+        password: "",
+      },
+    });
+
+    const token = await this.makeToken(user?.id, TokenType.PASSWORD_RESET);
+
+    await this.mailService.sendForgotPasswordMail({
+      email: dto.email,
+      token: token,
+    });
+
+    return {
+      message: "Token sent successfully, check email inbox to continue.",
+      data: {},
+    };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    await this.verifyToken({
+      identifier: user?.id,
+      tokenIdentifier: dto?.token,
+      type: TokenType.PASSWORD_RESET,
+    });
+
+    const hash = await this.hashPassword(dto.password);
+
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hash,
+      },
+    });
+
+    if (!updatedUser) {
+      throw new AppError("Something went wrong updating user!", "BAD_REQUEST");
+    }
+
+    return {
+      message: "Password reset successfully, proceed to login.",
+      data: {},
+    };
+  }
 
   changePassword() {}
 
   generateEmailVerificationToken() {}
-
-  verifyEmail() {}
 }

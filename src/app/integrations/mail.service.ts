@@ -14,8 +14,23 @@ export class MailService {
       const response = await this.mailgunService.send({
         from: "Bridge <info@bridge-demo.app>",
         to: data.email,
-        subject: "Welcome to Bridge",
-        text: `Please verify your email with token ${data.token}`,
+        subject: "Bridge - Verify Email",
+        text: `Please verify your email with token ${data.token}.`,
+      });
+
+      return response;
+    } catch (error: any) {
+      return new AppError(error, "BAD_GATEWAY");
+    }
+  }
+
+  async sendForgotPasswordMail(data: { email: string; token: string }) {
+    try {
+      const response = await this.mailgunService.send({
+        from: "Bridge <info@bridge-demo.app>",
+        to: data.email,
+        subject: "Bridge - Reset Password",
+        text: `Please continue your password reset with token ${data.token}.`,
       });
 
       return response;

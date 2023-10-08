@@ -29,14 +29,19 @@ export class RedisService {
     return cl;
   })();
 
-  async get<T = any>(key: string): Promise<T> {
+  async get<T = any>(key: string): Promise<T | null> {
     try {
       const value = await this.client.get(key);
-      return value
-        ? typeof value === "object"
-          ? JSON.parse(value)
-          : value
-        : null;
+
+      if (typeof value === "string") {
+        try {
+          return JSON.parse(value) as T;
+        } catch (error) {
+          return value as T;
+        }
+      }
+
+      return null;
     } catch (error: any) {
       throw new AppError(error, "BAD_GATEWAY");
     }
