@@ -177,7 +177,30 @@ export class AuthService extends PrismaRepository {
     };
   }
 
-  getUser() {}
+  async getUser(identifier: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ email: identifier }, { id: identifier }],
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        isVerified: true,
+        role: true,
+        lastLogin: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User account not found!", "NOT_FOUND");
+    }
+
+    return {
+      message: "User fetched successfully.",
+      data: user,
+    };
+  }
 
   validateToken() {}
 

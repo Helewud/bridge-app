@@ -1,3 +1,4 @@
+import { Authenticate } from "../middlewares/auth.middleware";
 import { PrismaRepository } from "../providers/prisma.repository";
 import { registerDependency } from "../utils/container.helper";
 import { AuthController } from "./features/auth/auth.controller";
@@ -16,6 +17,10 @@ export default (function () {
   //
   // Register Injectables
   return registerDependency([
+    {
+      name: "AuthMiddleware",
+      injectable: Authenticate,
+    },
     {
       name: "PrismaRepository",
       injectable: PrismaRepository,

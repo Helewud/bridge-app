@@ -16,18 +16,14 @@ import { LoginDto, RegisterUserDto } from "./auth.dto";
 import { resolve } from "../../../utils/response.helper";
 import { bodyValidator } from "../../../middlewares/validator.middleware";
 import { Dependency } from "../../../utils/container.helper";
+import { authGuard } from "../../../common/constant";
 
 @controller("/auth")
-export class AuthController
-  extends BaseHttpController
-  implements interfaces.Controller
-{
+export class AuthController implements interfaces.Controller {
   constructor(
     @inject(Dependency.AuthService)
     private readonly authService: AuthService
-  ) {
-    super();
-  }
+  ) {}
 
   @httpPost("/register", bodyValidator(RegisterUserDto))
   async register(

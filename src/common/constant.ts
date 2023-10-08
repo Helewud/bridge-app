@@ -1,3 +1,5 @@
+import { Dependency } from "../utils/container.helper";
+
 export enum TokenType {
   EMAIL_VERIFICATION = "email-verification",
   PASSWORD_RESET = "password-reset",
@@ -8,3 +10,5 @@ export enum TokenExpiration {
   TWENTY_FOUR_HOURS = 60 * 60 * 24,
   ONE_WEEK = 60 * 60 * 24 * 7,
 }
+
+export const authGuard = Dependency.AuthMiddleware;

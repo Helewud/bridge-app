@@ -1,6 +1,7 @@
 import { Container } from "inversify";
 
 export const Dependency = {
+  AuthMiddleware: Symbol("AuthMiddleware"),
   AuthService: Symbol("AuthService"),
   MailgunService: Symbol("MailgunService"),
   MailService: Symbol("MailService"),
