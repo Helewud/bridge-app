@@ -24,8 +24,7 @@ import {
   bodyValidator,
   paramsValidator,
 } from "../../../middlewares/validator.middleware";
-import { Dependency } from "../../../utils/container.helper";
-import { authGuard } from "../../../common/constant";
+import { Dependency, Guard } from "../../../utils/container.helper";
 import { User } from "@prisma/client";
 
 @controller("/auth")
@@ -113,7 +112,7 @@ export class AuthController implements interfaces.Controller {
     }
   }
 
-  @httpPost("/change-password", authGuard, bodyValidator(ChangePasswordDto))
+  @httpPost("/change-password", Guard.Auth, bodyValidator(ChangePasswordDto))
   async changePassword(
     @request() req: express.Request,
     @response() res: express.Response

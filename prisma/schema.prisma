@@ -21,24 +21,36 @@ enum PropertyStatus {
     CLOSED
 }
 
+enum PropertyBidStatus {
+    BID
+    ACCEPTED
+    REJECTED
+    REBID
+    COUNTER_BID
+}
+
 model User {
-    id         String    @unique @default(uuid())
-    username   String    @unique
-    email      String    @unique
+    id         String     @unique @default(uuid())
+    username   String     @unique
+    email      String     @unique
     password   String
     isVerified Boolean
     role       Roles
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
     deletedAt  DateTime?
     lastLogin  DateTime?
+    properties Property[]
 }
 
 model Property {
     id            String         @unique @default(uuid())
     userId        String
+    user          User?          @relation(fields: [userId], references: [id])
     price         Float
-    location      String
+    address       String
+    city          String
+    state         String
     numberOfRooms String
     amenities     String[]
     description   String
@@ -47,4 +59,17 @@ model Property {
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
     deletedAt     DateTime?
+    propertyBids  PropertyBid[]
+}
+
+model PropertyBid {
+    id              String            @unique @default(uuid())
+    propertyId      String
+    property        Property?         @relation(fields: [propertyId], references: [id])
+    propertyOwnerId String
+    bidOwnerId      String
+    price           Float
+    index           Int
+    status          PropertyBidStatus
+    rootBid         String?
 }

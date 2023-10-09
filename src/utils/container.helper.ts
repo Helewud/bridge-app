@@ -2,13 +2,26 @@ import { Container } from "inversify";
 
 export const Dependency = {
   AuthMiddleware: Symbol("AuthMiddleware"),
+  TenantRoleMiddleware: Symbol("TenantRoleMiddleware"),
+  LandlordRoleMiddleware: Symbol("LandlordRoleMiddleware"),
+
   AuthService: Symbol("AuthService"),
   UserService: Symbol("UserService"),
+  PropertyService: Symbol("PropertyService"),
+  PropertyBidService: Symbol("PropertyBidService"),
+
   MailgunService: Symbol("MailgunService"),
   MailService: Symbol("MailService"),
   RedisService: Symbol("RedisService"),
+  AWSService: Symbol("AWSService"),
+
   PrismaRepository: Symbol("PrismaRepository"),
-  AuthController: Symbol("AuthController"),
+};
+
+export const Guard = {
+  Auth: Dependency.AuthMiddleware,
+  Tenant: Dependency.TenantRoleMiddleware,
+  Landlord: Dependency.LandlordRoleMiddleware,
 };
 
 export function registerDependency(

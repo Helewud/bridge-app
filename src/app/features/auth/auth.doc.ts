@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   - name: Auth
- *     description: Auth Collection Api Collection
+ *     description: Auth Api Collection
  */
 
 /**
@@ -112,8 +112,7 @@
  * /api/auth/email/{email}:
  *   get:
  *     summary: Resend User Email Verification
- *     tags:
- *       - Auth
+ *     tags: [Auth]
  *     parameters:
  *       - name: email
  *         in: path

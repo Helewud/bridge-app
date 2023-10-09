@@ -744,9 +744,9 @@
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - name: propertyId
+ *       - name: userId
  *         in: path
- *         description: Property's unique identifier
+ *         description: user's unique identifier
  *         required: true
  *         type: string
  *     responses:

@@ -7,9 +7,8 @@ import {
   request,
   response,
 } from "inversify-express-utils";
-import { Dependency } from "../../../utils/container.helper";
+import { Dependency, Guard } from "../../../utils/container.helper";
 import { UserService } from "./user.service";
-import { authGuard } from "../../../common/constant";
 import { resolve } from "../../../utils/response.helper";
 import { User } from ".prisma/client";
 import { GetUserProfileDto } from "./user.dto";
@@ -21,7 +20,7 @@ export class UserController implements interfaces.Controller {
     @inject(Dependency.UserService) private userService: UserService
   ) {}
 
-  @httpGet("/profile", authGuard)
+  @httpGet("/profile", Guard.Auth)
   async getProfile(
     @request() req: express.Request,
     @response() res: express.Response
@@ -35,7 +34,7 @@ export class UserController implements interfaces.Controller {
     }
   }
 
-  @httpGet("/profile/:id", authGuard, paramsValidator(GetUserProfileDto))
+  @httpGet("/profile/:id", Guard.Auth, paramsValidator(GetUserProfileDto))
   async getUserProfile(
     @request() req: express.Request,
     @response() res: express.Response

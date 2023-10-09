@@ -1,8 +1,8 @@
 /**
  * @swagger
  * tags:
- *   - name: User
- *     description: Users Collection Api Collection
+ *   - name: Users
+ *     description: Users Api Collection
  */
 
 /**
