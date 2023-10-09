@@ -16,4 +16,4 @@ EXPOSE 3000
 ENV PORT=3000
 
 # Run the web service on container startup.
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start"]
