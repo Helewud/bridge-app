@@ -3,6 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { resolve } from "path";
 import envConfig from "../config/env.config";
+import { writeFileSync } from "fs";
 
 const { BASE_URL } = envConfig;
 
@@ -14,12 +15,17 @@ export const config = swaggerJsDoc({
     info: {
       title: "API Docs for Bridge",
       description: `Base Url: ${BASE_URL}/docs`,
-      contact: { name: "helewud", email: "john@doe.com" },
+      contact: { name: "helewud", email: "helewud@gmail.com" },
       version: "1.0.0",
     },
   },
   apis: [resolve(__dirname, "../app/features/**/*.{ts,js}")],
 });
+
+writeFileSync(
+  resolve(__dirname, "swagger.json"),
+  JSON.stringify(config, null, 2)
+);
 
 export const setupDocs = (app: express.Application) => {
   const swaggerHtml = swaggerUi.generateHTML(config);
