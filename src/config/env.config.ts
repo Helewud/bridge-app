@@ -16,4 +16,9 @@ export default {
   MAILGUN_HOST: String(process.env.MAILGUN_HOST),
 
   REDIS_URL: process.env.REDIS_URL,
+
+  AWS_REGION: "eu-west-2",
+  AWS_BUCKET_NAME: "bridge-09128734",
+  AWS_ACCESS_KEY: String(process.env.AWS_ACCESS_KEY),
+  AWS_SECRET_ACCESS_KEY: String(process.env.AWS_SECRET_ACCESS_KEY),
 };

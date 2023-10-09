@@ -11,4 +11,9 @@ export enum TokenExpiration {
   ONE_WEEK = 60 * 60 * 24 * 7,
 }
 
-export const authGuard = Dependency.AuthMiddleware;
+export const mediaSupportedFormats = {
+  videoSize: 5242880 * 2,
+  imageSize: 5242880,
+  image: ["jpeg", "jpg", "png", "gif", "webp"],
+  video: ["mp4", "webm", "hls"],
+};
