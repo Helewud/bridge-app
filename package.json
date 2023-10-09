@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "a bidding platform for renting properties",
   "main": "index.ts",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
