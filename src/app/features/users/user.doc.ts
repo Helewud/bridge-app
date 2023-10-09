@@ -63,7 +63,7 @@
  *                     email:
  *                       type: string
  *                       description: User's email address
- *                       example: helewud@gmail.com
+ *                       example: john@doe.com
  *                     username:
  *                       type: string
  *                       description: User's username
@@ -121,7 +121,7 @@
  *                     email:
  *                       type: string
  *                       description: User's email address
- *                       example: helewud@gmail.com
+ *                       example: john@doe.com
  *                     username:
  *                       type: string
  *                       description: User's username

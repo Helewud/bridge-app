@@ -12,6 +12,7 @@
     "build": "tsc",
     "build:dev": "tsc -w",
     "start": "node dist/main.js",
+    "generate-swagger": "node dist/providers/swaggar.provider.js",
     "start:dev": "ts-node-dev --watch --files --clear -r dotenv/config src/main.ts",
     "start:test": "cross-env NODE_ENV=test nodemon -r dotenv/config dist/app.js",
     "create-migration": "yarn prisma migrate dev --create-only ",

@@ -10,7 +10,7 @@ function main() {
   const server = new InversifyExpressServer(
     AppContainer,
     null,
-    { rootPath: "/api/" },
+    { rootPath: "/api" },
     null
   );
 
@@ -20,7 +20,7 @@ function main() {
       app.use(helmet.hidePoweredBy());
       app.use(express.json());
 
-      app.use(setupDocs());
+      setupDocs(app);
     })
     .setErrorConfig((app) => {
       app.use(errorHandler);

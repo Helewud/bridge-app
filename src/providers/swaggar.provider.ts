@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from "express";
+import express, { Router, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { resolve } from "path";
@@ -6,27 +6,25 @@ import envConfig from "../config/env.config";
 
 const { BASE_URL } = envConfig;
 
-const route = "/docs";
-const config = swaggerJsDoc({
+const route = "/api/docs";
+export const config = swaggerJsDoc({
   swaggerDefinition: {
     openapi: "3.0.0",
     servers: [{ url: `${BASE_URL}/docs` }],
     info: {
       title: "API Docs for Bridge",
       description: `Base Url: ${BASE_URL}/docs`,
-      contact: { name: "helewud", email: "helewud@gmail.com" },
+      contact: { name: "helewud", email: "john@doe.com" },
       version: "1.0.0",
     },
   },
-  apis: [resolve(__dirname, "../app/features/**/*.doc.ts")],
+  apis: [resolve(__dirname, "../app/features/**/*.{ts,js}")],
 });
 
-export const setupDocs = () => {
-  const router = Router();
-
+export const setupDocs = (app: express.Application) => {
   const swaggerHtml = swaggerUi.generateHTML(config);
-  router.use(route, swaggerUi.serveFiles(config));
-  router.get(route, (req: Request, res: Response) => res.send(swaggerHtml));
+  app.use(route, swaggerUi.serveFiles(config));
+  app.get(route, (req: Request, res: Response) => res.send(swaggerHtml));
 
-  return router;
+  return app;
 };
