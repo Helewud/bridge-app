@@ -5,8 +5,6 @@ import { resolve } from "path";
 import envConfig from "../config/env.config";
 import { writeFileSync } from "fs";
 
-const { BASE_URL } = envConfig;
-
 export const swaggarConfig = swaggerJsDoc({
   swaggerDefinition: {
     openapi: "3.0.0",
