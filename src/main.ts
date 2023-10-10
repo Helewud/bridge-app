@@ -19,7 +19,7 @@ function main() {
 
   server
     .setConfig((app) => {
-      app.use(helmet());
+      //   app.use(helmet());
       app.use(helmet.hidePoweredBy());
       app.use(express.json());
 
