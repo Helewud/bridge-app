@@ -1,0 +1,2361 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "localhost:3000/api/docs"
+    }
+  ],
+  "info": {
+    "title": "API Docs for Bridge",
+    "description": "Base Url: localhost:3000/api/docs",
+    "contact": {
+      "name": "helewud",
+      "email": "helewud@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "User Registration",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address",
+                    "example": "john@doe.com"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "User's username",
+                    "example": "johndoe"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "example": "johndoe"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "User's role",
+                    "example": "LANDLORD"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "User creation successful, check email inbox to continue."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "User data",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User's unique identifier",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "username": {
+                          "type": "string",
+                          "description": "User's username",
+                          "example": "johndoe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email address",
+                          "example": "john@doe.com"
+                        },
+                        "isVerified": {
+                          "type": "boolean",
+                          "description": "Indicates whether the user is verified",
+                          "example": false
+                        },
+                        "role": {
+                          "type": "string",
+                          "description": "User's role",
+                          "example": "LANDLORD"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of user creation",
+                          "example": "2023-10-08T10:51:51.102Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/email/{email}": {
+      "get": {
+        "summary": "Resend User Email Verification",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "User's email address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Token sent successfully, check email inbox to continue."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Additional data (empty in this case)",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/email": {
+      "post": {
+        "summary": "Verify User Email",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address",
+                    "example": "john@doe.com"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "Verification token",
+                    "example": 147099
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Email verified successfully!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Additional data (empty in this case)",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "User Login",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address",
+                    "example": "john@doe.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User's password",
+                    "example": "johndoe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "User logged in successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "User and token data",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "description": "User information",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "User's unique identifier",
+                              "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                            },
+                            "username": {
+                              "type": "string",
+                              "description": "User's username",
+                              "example": "johndoe"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "User's email address",
+                              "example": "john@doe.com"
+                            },
+                            "isVerified": {
+                              "type": "boolean",
+                              "description": "Indicates whether the user is verified",
+                              "example": true
+                            },
+                            "role": {
+                              "type": "string",
+                              "description": "User's role",
+                              "example": "LANDLORD"
+                            },
+                            "lastLogin": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "Timestamp of the last login (null in this case)"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "string",
+                          "description": "Authentication token",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMzhhYzEyLWI3ZWUtNDFiNy04NDczLThlY2M3NGU1ZDEwYyIsInJvbGUiOiJMQU5ETE9SRCIsImlhdCI6MTY5Njc2MjU2MywiZXhwIjoxNjk3MzY3MzYzfQ.u6fdW_1WLpQnPIhRk9AvIbzGdEAkIrsNzliabLWabj0"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/reset/{email}": {
+      "get": {
+        "summary": "Request Password Reset Token",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "User's email address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Token sent successfully, check email inbox to continue."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Additional data (empty in this case)",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/reset": {
+      "post": {
+        "summary": "Reset User Password",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address",
+                    "example": "john@doe.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "New password",
+                    "example": "johndoe"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "Reset token",
+                    "example": 812178
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Password reset successfully, proceed to login."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Additional data (empty in this case)",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/api/auth/change-password": {
+      "post": {
+        "summary": "Change User Password",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "newPassword": {
+                    "type": "string",
+                    "description": "New password",
+                    "example": "johndoe1111"
+                  },
+                  "oldPassword": {
+                    "type": "string",
+                    "description": "Old password",
+                    "example": "johndoe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Password changed successfully, proceed to login."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Additional data (empty in this case)",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/bids/landlord": {
+      "post": {
+        "summary": "Perform Bid Action as a Landlord",
+        "tags": [
+          "Bids"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bidId": {
+                    "type": "string",
+                    "description": "ID of the bid you want to perform an action on",
+                    "example": "70987a3d-3e66-4412-80fc-91831dd5eff8"
+                  },
+                  "bidAction": {
+                    "type": "string",
+                    "description": "Type of bid action (e.g., COUNTER_BID)",
+                    "example": "COUNTER_BID"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "The bid price (if applicable)",
+                    "example": 10000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Bid action submitted successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID of the submitted bid action",
+                          "example": "ec5a53fd-ffa5-49a0-ace2-e1dfa32c03f9"
+                        },
+                        "propertyId": {
+                          "type": "string",
+                          "description": "ID of the property related to the bid action",
+                          "example": "1745621c-ba47-44c4-892b-c127cf5b3c59"
+                        },
+                        "propertyOwnerId": {
+                          "type": "string",
+                          "description": "ID of the property owner",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "bidOwnerId": {
+                          "type": "string",
+                          "description": "ID of the bid owner (landlord)",
+                          "example": "c49d5c9e-09db-4863-9ca1-04b031c6952c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "The bid price (if applicable)",
+                          "example": 10000
+                        },
+                        "index": {
+                          "type": "integer",
+                          "description": "The bid action index",
+                          "example": 4
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "The bid action status",
+                          "example": "COUNTER_BID"
+                        },
+                        "rootBid": {
+                          "type": "string",
+                          "description": "ID of the root bid (if applicable)",
+                          "example": "bad39f91-a257-4b29-9d5c-cccec15b0f88"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      }
+    },
+    "/api/bids/tenant": {
+      "post": {
+        "summary": "Submit a Bid as a Tenant",
+        "tags": [
+          "Bids"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "propertyId": {
+                    "type": "string",
+                    "description": "ID of the property you want to bid on",
+                    "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "The bid price",
+                    "example": 100000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Bid submitted successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "ID of the submitted bid",
+                          "example": "f263c9f8-eacf-400a-8c8e-a884bc4e7ace"
+                        },
+                        "propertyId": {
+                          "type": "string",
+                          "description": "ID of the property that was bid on",
+                          "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                        },
+                        "propertyOwnerId": {
+                          "type": "string",
+                          "description": "ID of the property owner",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "bidOwnerId": {
+                          "type": "string",
+                          "description": "ID of the bid owner (tenant)",
+                          "example": "c49d5c9e-09db-4863-9ca1-04b031c6952c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "The bid price",
+                          "example": 100000
+                        },
+                        "index": {
+                          "type": "integer",
+                          "description": "The bid index",
+                          "example": 0
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "The bid status",
+                          "example": "BID"
+                        },
+                        "rootBid": {
+                          "type": "string",
+                          "description": "ID of the root bid (if applicable)",
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+      }
+    },
+    "/api/bids/history": {
+      "get": {
+        "summary": "Fetch Bid History for Multiple Properties",
+        "tags": [
+          "Bids"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Bids history fetched successfully."
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "List of bid history items for multiple properties",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Bid's unique identifier",
+                            "example": "f7c9e9d5-344d-439b-bd82-07d8d4b1f48e"
+                          },
+                          "propertyId": {
+                            "type": "string",
+                            "description": "Property's unique identifier",
+                            "example": "1745621c-ba47-44c4-892b-c127cf5b3c59"
+                          },
+                          "propertyOwnerId": {
+                            "type": "string",
+                            "description": "Property owner's unique identifier",
+                            "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                          },
+                          "bidOwnerId": {
+                            "type": "string",
+                            "description": "Bid owner's unique identifier",
+                            "example": "c49d5c9e-09db-4863-9ca1-04b031c6952c"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "Bid price",
+                            "example": 100000
+                          },
+                          "index": {
+                            "type": "integer",
+                            "description": "Index of the bid (e.g., order of bidding)",
+                            "example": 3
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Bid status (e.g., BID, REBID, COUNTER_BID)",
+                            "example": "REBID"
+                          },
+                          "rootBid": {
+                            "type": "string",
+                            "description": "Identifier of the root bid (null for original bids)",
+                            "example": "bad39f91-a257-4b29-9d5c-cccec15b0f88"
+                          },
+                          "property": {
+                            "type": "object",
+                            "description": "Information about the property associated with the bid",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Property's unique identifier",
+                                "example": "1745621c-ba47-44c4-892b-c127cf5b3c59"
+                              },
+                              "userId": {
+                                "type": "string",
+                                "description": "User's unique identifier (property owner)",
+                                "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                              },
+                              "price": {
+                                "type": "number",
+                                "description": "Property price",
+                                "example": 18000
+                              },
+                              "address": {
+                                "type": "string",
+                                "description": "Property address",
+                                "example": "45A, Green Avenue, Allen"
+                              },
+                              "city": {
+                                "type": "string",
+                                "description": "City where the property is located",
+                                "example": "Ikeja"
+                              },
+                              "state": {
+                                "type": "string",
+                                "description": "State where the property is located",
+                                "example": "Lagos"
+                              },
+                              "numberOfRooms": {
+                                "type": "string",
+                                "description": "Number of rooms in the property",
+                                "example": "3"
+                              },
+                              "amenities": {
+                                "type": "array",
+                                "description": "List of property amenities",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "example": [
+                                  "Swimming Pool",
+                                  "Gated Community"
+                                ]
+                              },
+                              "description": {
+                                "type": "string",
+                                "description": "Property description",
+                                "example": "Beautiful house with a pool view"
+                              },
+                              "media": {
+                                "type": "array",
+                                "description": "List of property media",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "example": [
+                                  "front",
+                                  "back",
+                                  "pool"
+                                ]
+                              },
+                              "status": {
+                                "type": "string",
+                                "description": "Property status (e.g., OPEN, SOLD)",
+                                "example": "OPEN"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the property was created",
+                                "example": "2023-10-09T16:01:19.346Z"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "Timestamp when the property was last updated",
+                                "example": "2023-10-09T16:01:19.346Z"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/bids/info/{bidId}": {
+      "get": {
+        "summary": "Fetch Bid Info",
+        "tags": [
+          "Bids"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "bidId",
+            "in": "path",
+            "description": "bid's unique identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Bids history fetched successfully."
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "List of bid history items for the property",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Bid's unique identifier",
+                            "example": "f7c9e9d5-344d-439b-bd82-07d8d4b1f48e"
+                          },
+                          "propertyId": {
+                            "type": "string",
+                            "description": "Property's unique identifier",
+                            "example": "1745621c-ba47-44c4-892b-c127cf5b3c59"
+                          },
+                          "propertyOwnerId": {
+                            "type": "string",
+                            "description": "Property owner's unique identifier",
+                            "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                          },
+                          "bidOwnerId": {
+                            "type": "string",
+                            "description": "Bid owner's unique identifier",
+                            "example": "c49d5c9e-09db-4863-9ca1-04b031c6952c"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "Bid price",
+                            "example": 100000
+                          },
+                          "index": {
+                            "type": "integer",
+                            "description": "Index of the bid (e.g., order of bidding)",
+                            "example": 3
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Bid status (e.g., BID, REBID, COUNTER_BID)",
+                            "example": "REBID"
+                          },
+                          "rootBid": {
+                            "type": "string",
+                            "description": "Identifier of the root bid (null for original bids)",
+                            "example": "bad39f91-a257-4b29-9d5c-cccec15b0f88"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/listing/add": {
+      "post": {
+        "summary": "Add Property for Listing",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "price": {
+                    "type": "number",
+                    "description": "Price of the property",
+                    "example": 20000
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Address of the property",
+                    "example": "24, nice street, oluwole"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City of the property",
+                    "example": "ikeja"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State of the property",
+                    "example": "Lagos"
+                  },
+                  "numberOfRooms": {
+                    "type": "string",
+                    "description": "Number of rooms in the property",
+                    "example": 4
+                  },
+                  "amenities": {
+                    "type": "array",
+                    "description": "List of amenities in the property",
+                    "items": {
+                      "type": "string",
+                      "example": "24 Hours light"
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the property",
+                    "example": "a conducive house for a small family"
+                  },
+                  "media": {
+                    "type": "array",
+                    "description": "List of media files associated with the property",
+                    "items": {
+                      "type": "string",
+                      "example": "start"
+                    }
+                  }
+                },
+                "required": [
+                  "price",
+                  "address",
+                  "city",
+                  "state",
+                  "numberOfRooms",
+                  "amenities",
+                  "description",
+                  "media"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Property added for listing successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Property data",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Property's unique identifier",
+                          "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "description": "User's unique identifier who added the property",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Price of the property",
+                          "example": 20000
+                        },
+                        "address": {
+                          "type": "string",
+                          "description": "Address of the property",
+                          "example": "24, nice street, oluwole"
+                        },
+                        "city": {
+                          "type": "string",
+                          "description": "City of the property",
+                          "example": "ikeja"
+                        },
+                        "state": {
+                          "type": "string",
+                          "description": "State of the property",
+                          "example": "Lagos"
+                        },
+                        "numberOfRooms": {
+                          "type": "string",
+                          "description": "Number of rooms in the property",
+                          "example": 4
+                        },
+                        "amenities": {
+                          "type": "array",
+                          "description": "List of amenities in the property",
+                          "items": {
+                            "type": "string",
+                            "example": "24 Hours light"
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Description of the property",
+                          "example": "a conducive house for a small family"
+                        },
+                        "media": {
+                          "type": "array",
+                          "description": "List of media files associated with the property",
+                          "items": {
+                            "type": "string",
+                            "example": "start"
+                          }
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Property status (e.g., OPEN)",
+                          "example": "OPEN"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property creation",
+                          "example": "2023-10-09T14:44:28.429Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property update",
+                          "example": "2023-10-09T14:44:28.429Z"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property deletion (null if not deleted)",
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/listing/edit": {
+      "put": {
+        "summary": "Edit Property",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "propertyId": {
+                    "type": "string",
+                    "description": "The unique identifier of the property to edit",
+                    "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "Price of the property",
+                    "example": 20000
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Address of the property",
+                    "example": "24, nice street, oluwole"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City of the property",
+                    "example": "ikeja"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "State of the property",
+                    "example": "Lagos"
+                  },
+                  "numberOfRooms": {
+                    "type": "string",
+                    "description": "Number of rooms in the property",
+                    "example": 4
+                  },
+                  "amenities": {
+                    "type": "array",
+                    "description": "List of amenities in the property",
+                    "items": {
+                      "type": "string",
+                      "example": "24 Hours light"
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the property",
+                    "example": "a conducive house for a small family"
+                  },
+                  "media": {
+                    "type": "array",
+                    "description": "List of media files associated with the property",
+                    "items": {
+                      "type": "string",
+                      "example": "start"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Property updated successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Property data",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Property's unique identifier",
+                          "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "description": "User's unique identifier who added the property",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Price of the property",
+                          "example": 50000
+                        },
+                        "address": {
+                          "type": "string",
+                          "description": "Address of the property",
+                          "example": "24, nice street, oluwole"
+                        },
+                        "city": {
+                          "type": "string",
+                          "description": "City of the property",
+                          "example": "ikeja"
+                        },
+                        "state": {
+                          "type": "string",
+                          "description": "State of the property",
+                          "example": "Lagos"
+                        },
+                        "numberOfRooms": {
+                          "type": "string",
+                          "description": "Number of rooms in the property",
+                          "example": 4
+                        },
+                        "amenities": {
+                          "type": "array",
+                          "description": "List of amenities in the property",
+                          "items": {
+                            "type": "string",
+                            "example": "24 Hours light"
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Description of the property",
+                          "example": "a conducive house for a small family"
+                        },
+                        "media": {
+                          "type": "array",
+                          "description": "List of media files associated with the property",
+                          "items": {
+                            "type": "string",
+                            "example": "start"
+                          }
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Property status (e.g., OPEN)",
+                          "example": "OPEN"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property creation",
+                          "example": "2023-10-09T14:44:28.429Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property update",
+                          "example": "2023-10-09T14:59:17.460Z"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property deletion (null if not deleted)",
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/listing": {
+      "get": {
+        "summary": "Get All Properties on the Platform",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by property status (e.g., OPEN, CLOSED)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Filter by property start date (e.g., YYYY-MM-DD)",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "Filter by property end date (e.g., YYYY-MM-DD)",
+            "required": false,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "name": "startPrice",
+            "in": "query",
+            "description": "Filter by minimum property price",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "endPrice",
+            "in": "query",
+            "description": "Filter by maximum property price",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "startNumberOfRooms",
+            "in": "query",
+            "description": "Filter by minimum number of rooms",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endNumberOfRooms",
+            "in": "query",
+            "description": "Filter by maximum number of rooms",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit the number of results per page",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "User properties fetched successfully."
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "List of user properties",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Property's unique identifier",
+                            "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "description": "User's unique identifier who added the property",
+                            "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "Price of the property",
+                            "example": 50000
+                          },
+                          "address": {
+                            "type": "string",
+                            "description": "Address of the property",
+                            "example": "24, nice street, oluwole"
+                          },
+                          "city": {
+                            "type": "string",
+                            "description": "City of the property",
+                            "example": 50000
+                          },
+                          "state": {
+                            "type": "string",
+                            "description": "State of the property",
+                            "example": "Lagos"
+                          },
+                          "numberOfRooms": {
+                            "type": "string",
+                            "description": "Number of rooms in the property",
+                            "example": 4
+                          },
+                          "amenities": {
+                            "type": "array",
+                            "description": "List of amenities in the property",
+                            "items": {
+                              "type": "string",
+                              "example": "24 Hours light"
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the property",
+                            "example": "a conducive house for a small family"
+                          },
+                          "media": {
+                            "type": "array",
+                            "description": "List of media files associated with the property",
+                            "items": {
+                              "type": "string",
+                              "example": "start"
+                            }
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Property status (e.g., OPEN)",
+                            "example": "OPEN"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property creation",
+                            "example": "2023-10-09T14:44:28.429Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property update",
+                            "example": "2023-10-09T14:59:17.460Z"
+                          },
+                          "deletedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property deletion (null if not deleted)",
+                            "example": null
+                          },
+                          "user": {
+                            "type": "object",
+                            "description": "User information",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "User's unique identifier",
+                                "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                              },
+                              "email": {
+                                "type": "string",
+                                "description": "User's email address",
+                                "example": "john@doe.com"
+                              },
+                              "username": {
+                                "type": "string",
+                                "description": "User's username",
+                                "example": "johndoe"
+                              },
+                              "role": {
+                                "type": "string",
+                                "description": "User's role (e.g., LANDLORD)",
+                                "example": "LANDLORD"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/listing/{propertyId}": {
+      "get": {
+        "summary": "Fetch Property by Property Id",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "propertyId",
+            "in": "path",
+            "description": "ID of the property to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Property fetched successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Property's unique identifier",
+                          "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "description": "User's unique identifier who added the property",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Price of the property",
+                          "example": 50000
+                        },
+                        "address": {
+                          "type": "string",
+                          "description": "Address of the property",
+                          "example": "24, nice street, oluwole"
+                        },
+                        "city": {
+                          "type": "string",
+                          "description": "City of the property",
+                          "example": 50000
+                        },
+                        "state": {
+                          "type": "string",
+                          "description": "State of the property",
+                          "example": "Lagos"
+                        },
+                        "numberOfRooms": {
+                          "type": "string",
+                          "description": "Number of rooms in the property",
+                          "example": 4
+                        },
+                        "amenities": {
+                          "type": "array",
+                          "description": "List of amenities in the property",
+                          "items": {
+                            "type": "string",
+                            "example": "24 Hours light"
+                          }
+                        },
+                        "description": {
+                          "type": "string",
+                          "description": "Description of the property",
+                          "example": "a conducive house for a small family"
+                        },
+                        "media": {
+                          "type": "array",
+                          "description": "List of media files associated with the property",
+                          "items": {
+                            "type": "string",
+                            "example": "start"
+                          }
+                        },
+                        "status": {
+                          "type": "string",
+                          "description": "Property status (e.g., OPEN)",
+                          "example": "OPEN"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property creation",
+                          "example": "2023-10-09T14:44:28.429Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property update",
+                          "example": "2023-10-09T14:59:17.460Z"
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of property deletion (null if not deleted)",
+                          "example": null
+                        },
+                        "user": {
+                          "type": "object",
+                          "description": "User information",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "User's unique identifier",
+                              "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "User's email address",
+                              "example": "john@doe.com"
+                            },
+                            "username": {
+                              "type": "string",
+                              "description": "User's username",
+                              "example": "johndoe"
+                            },
+                            "role": {
+                              "type": "string",
+                              "description": "User's role (e.g., LANDLORD)",
+                              "example": "LANDLORD"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/user": {
+      "get": {
+        "summary": "Fetch Personal Listed Properties",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Properties fetched successfully."
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "List of properties associated with the user",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Property's unique identifier",
+                            "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "description": "User's unique identifier who added the property",
+                            "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "Price of the property",
+                            "example": 50000
+                          },
+                          "address": {
+                            "type": "string",
+                            "description": "Address of the property",
+                            "example": "24, nice street, oluwole"
+                          },
+                          "city": {
+                            "type": "string",
+                            "description": "City of the property",
+                            "example": 50000
+                          },
+                          "state": {
+                            "type": "string",
+                            "description": "State of the property",
+                            "example": "Lagos"
+                          },
+                          "numberOfRooms": {
+                            "type": "string",
+                            "description": "Number of rooms in the property",
+                            "example": 4
+                          },
+                          "amenities": {
+                            "type": "array",
+                            "description": "List of amenities in the property",
+                            "items": {
+                              "type": "string",
+                              "example": "24 Hours light"
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the property",
+                            "example": "a conducive house for a small family"
+                          },
+                          "media": {
+                            "type": "array",
+                            "description": "List of media files associated with the property",
+                            "items": {
+                              "type": "string",
+                              "example": "start"
+                            }
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Property status (e.g., OPEN)",
+                            "example": "OPEN"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property creation",
+                            "example": "2023-10-09T14:44:28.429Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property update",
+                            "example": "2023-10-09T14:59:17.460Z"
+                          },
+                          "deletedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property deletion (null if not deleted)",
+                            "example": null
+                          },
+                          "user": {
+                            "type": "object",
+                            "description": "User information",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "User's unique identifier",
+                                "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                              },
+                              "email": {
+                                "type": "string",
+                                "description": "User's email address",
+                                "example": "john@doe.com"
+                              },
+                              "username": {
+                                "type": "string",
+                                "description": "User's username",
+                                "example": "johndoe"
+                              },
+                              "role": {
+                                "type": "string",
+                                "description": "User's role (e.g., LANDLORD)",
+                                "example": "LANDLORD"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/user/{userId}": {
+      "get": {
+        "summary": "Fetch Properties by User Id",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user's unique identifier",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Properties fetched successfully."
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "List of properties associated with the user",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Property's unique identifier",
+                            "example": "1feca729-57e1-4910-a3b6-9cf677c45789"
+                          },
+                          "userId": {
+                            "type": "string",
+                            "description": "User's unique identifier who added the property",
+                            "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                          },
+                          "price": {
+                            "type": "number",
+                            "description": "Price of the property",
+                            "example": 50000
+                          },
+                          "address": {
+                            "type": "string",
+                            "description": "Address of the property",
+                            "example": "24, nice street, oluwole"
+                          },
+                          "city": {
+                            "type": "string",
+                            "description": "City of the property",
+                            "example": 50000
+                          },
+                          "state": {
+                            "type": "string",
+                            "description": "State of the property",
+                            "example": "Lagos"
+                          },
+                          "numberOfRooms": {
+                            "type": "string",
+                            "description": "Number of rooms in the property",
+                            "example": 4
+                          },
+                          "amenities": {
+                            "type": "array",
+                            "description": "List of amenities in the property",
+                            "items": {
+                              "type": "string",
+                              "example": "24 Hours light"
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Description of the property",
+                            "example": "a conducive house for a small family"
+                          },
+                          "media": {
+                            "type": "array",
+                            "description": "List of media files associated with the property",
+                            "items": {
+                              "type": "string",
+                              "example": "start"
+                            }
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "Property status (e.g., OPEN)",
+                            "example": "OPEN"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property creation",
+                            "example": "2023-10-09T14:44:28.429Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property update",
+                            "example": "2023-10-09T14:59:17.460Z"
+                          },
+                          "deletedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp of property deletion (null if not deleted)",
+                            "example": null
+                          },
+                          "user": {
+                            "type": "object",
+                            "description": "User information",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "User's unique identifier",
+                                "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                              },
+                              "email": {
+                                "type": "string",
+                                "description": "User's email address",
+                                "example": "john@doe.com"
+                              },
+                              "username": {
+                                "type": "string",
+                                "description": "User's username",
+                                "example": "johndoe"
+                              },
+                              "role": {
+                                "type": "string",
+                                "description": "User's role (e.g., LANDLORD)",
+                                "example": "LANDLORD"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/properties/upload": {
+      "post": {
+        "summary": "Upload Media for Property",
+        "tags": [
+          "Properties"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "media": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Media file to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "Media uploaded successfully!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Uploaded media data",
+                      "properties": {
+                        "mediaIdentifier": {
+                          "type": "string",
+                          "description": "Identifier for the uploaded media",
+                          "example": "1138ac12b7ee41b784738ecc74e1d10c7x68nm53RDU1Wf5UXzqjRYKYNXizz028.png"
+                        },
+                        "publicUrl": {
+                          "type": "string",
+                          "description": "Public URL of the uploaded media",
+                          "example": "https://bridge-09128734.s3.eu-west-2.amazonaws.com/1138ac12b7ee41b784738ecc74e1d10c7x68nm53RDU1Wf5UXzqjRYKYNXizz028.png"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "summary": "Get Personal User Profile",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "User fetched successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "User profile data",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User's unique identifier",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email address",
+                          "example": "john@doe.com"
+                        },
+                        "username": {
+                          "type": "string",
+                          "description": "User's username",
+                          "example": "johndoe"
+                        },
+                        "role": {
+                          "type": "string",
+                          "description": "User's role",
+                          "example": "LANDLORD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    },
+    "/api/users/profile/{userId}": {
+      "get": {
+        "summary": "Get User Profile by ID",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User's unique identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A success message",
+                      "example": "User fetched successfully."
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "User profile data",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "User's unique identifier",
+                          "example": "1138ac12-b7ee-41b7-8473-8ecc74e1d10c"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email address",
+                          "example": "john@doe.com"
+                        },
+                        "username": {
+                          "type": "string",
+                          "description": "User's username",
+                          "example": "johndoe"
+                        },
+                        "role": {
+                          "type": "string",
+                          "description": "User's role",
+                          "example": "LANDLORD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse"
+          }
+        },
+        "securitySchemes": {
+          "BearerAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "ErrorResponse": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "Status indicating an error",
+                  "example": "error"
+                },
+                "statusCode": {
+                  "type": "integer",
+                  "description": "HTTP status code",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Something went wrong!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth Api Collection"
+    },
+    {
+      "name": "Bids",
+      "description": "Property Bids Api Collection"
+    },
+    {
+      "name": "Properties",
+      "description": "Properties Api Collection"
+    },
+    {
+      "name": "Users",
+      "description": "Users Api Collection"
+    }
+  ]
+}

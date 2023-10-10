@@ -19,6 +19,7 @@ export default (function () {
   //
   //
   // Register Controllers
+
   AuthController;
   UserController;
   PropertyController;

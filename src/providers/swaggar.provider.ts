@@ -7,8 +7,7 @@ import { writeFileSync } from "fs";
 
 const { BASE_URL } = envConfig;
 
-const route = "/api/docs";
-export const config = swaggerJsDoc({
+export const swaggarConfig = swaggerJsDoc({
   swaggerDefinition: {
     openapi: "3.0.0",
     servers: [{ url: `${BASE_URL}/docs` }],
@@ -24,13 +23,5 @@ export const config = swaggerJsDoc({
 
 writeFileSync(
   resolve(__dirname, "swagger.json"),
-  JSON.stringify(config, null, 2)
+  JSON.stringify(swaggarConfig, null, 2)
 );
-
-export const setupDocs = (app: express.Application) => {
-  const swaggerHtml = swaggerUi.generateHTML(config);
-  app.use(route, swaggerUi.serveFiles(config));
-  app.get(route, (req: Request, res: Response) => res.send(swaggerHtml));
-
-  return app;
-};
