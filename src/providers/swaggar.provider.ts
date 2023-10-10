@@ -10,11 +10,8 @@ const { BASE_URL } = envConfig;
 export const swaggarConfig = swaggerJsDoc({
   swaggerDefinition: {
     openapi: "3.0.0",
-    servers: [{ url: `${BASE_URL}/docs` }],
     info: {
       title: "API Docs for Bridge",
-      description: `Base Url: ${BASE_URL}/docs`,
-      contact: { name: "helewud", email: "helewud@gmail.com" },
       version: "1.0.0",
     },
   },
